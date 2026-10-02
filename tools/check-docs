@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+"""Compare documented default ports with a literal source declaration."""
+import ast
+from pathlib import Path
+import re
+import sys
+
+try:
+    tree = ast.parse(Path('src/service.py').read_text())
+    functions = [node for node in tree.body
+                 if isinstance(node, ast.FunctionDef) and node.name == 'default_port']
+    if len(functions) != 1:
+        raise ValueError('one default_port function is required')
+    returns = [node for node in functions[0].body if isinstance(node, ast.Return)]
+    if len(returns) != 1 or not isinstance(returns[0].value, ast.Constant):
+        raise ValueError('the default port must be a literal')
+    expected = returns[0].value.value
+    if type(expected) is not int or not 1 <= expected <= 65535:
+        raise ValueError('invalid port declaration')
+    mismatches = []
+    for name in ('README.md', 'docs/verification.md'):
+        text = Path(name).read_text()
+        ports = re.findall(r'\bdefault port is `([0-9]+)`', text, re.IGNORECASE)
+        if len(ports) != 1:
+            raise ValueError(name + ': one explicit default-port claim is required')
+        if int(ports[0]) != expected:
+            mismatches.append(name)
+    if mismatches:
+        print('Stale default-port claim: ' + ', '.join(mismatches))
+        sys.exit(1)
+    print('Both documentation claims agree with src/service.py#default_port')
+except (OSError, SyntaxError, ValueError) as error:
+    print('Unable to verify: ' + str(error))
+    sys.exit(2)
