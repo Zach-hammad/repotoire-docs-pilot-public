@@ -14,7 +14,7 @@ The check reads the source syntax without executing it. Exit 0 means both claims
       "command": [
         "tools/check-docs"
       ],
-      "source_file": "docs/verification.md",
+      "source_file": "tools/check-docs",
       "runtime": "repository-tool",
       "languages": [
         "markdown",
@@ -33,7 +33,7 @@ The check reads the source syntax without executing it. Exit 0 means both claims
       "command": [
         "tools/check-docs"
       ],
-      "source_file": "docs/verification.md",
+      "source_file": "tools/check-docs",
       "confidence": "high",
       "read_only": {
         "environment": {},
