@@ -1,2 +1,2 @@
 def default_port() -> int:
-    return 9004
+    return 9005
