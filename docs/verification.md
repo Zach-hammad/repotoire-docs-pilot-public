@@ -1,6 +1,6 @@
 # Documentation verification
 
-The default port is `8000`, as defined by `src/service.py#default_port`.
+The default port is `9004`, as defined by `src/service.py#default_port`.
 
 The check reads the source syntax without executing it. Exit 0 means both claims agree; exit 1 means stale documentation; exit 2 means the claim cannot be verified.
 
