@@ -34,6 +34,7 @@ The check reads the source syntax without executing it. Exit 0 means both claims
         "tools/check-docs"
       ],
       "source_file": "tools/check-docs",
+      "runtime": "repository-tool",
       "confidence": "high",
       "read_only": {
         "environment": {},
